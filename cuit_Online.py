@@ -6,7 +6,7 @@ import re
 from datetime import datetime
 
 # Configuración
-file_txt = "cuils.txt"
+file_txt = "valores.txt"
 result_name = "resultados"
 error_name = "errores"
 tiempo_espera = 4
@@ -24,8 +24,15 @@ def leer_terminos(file_path):
 def buscar_enlace(termino):
 	url = f"{base_url}{termino}"
 	print(f"Buscando: {url}")
+	
+	headers = {
+		'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+		'Accept-Language': 'es-ES,es;q=0.9',
+		'Referer': 'https://www.cuitonline.com/'
+	}
+	
 	try:
-		response = requests.get(url)
+		response = requests.get(url, headers=headers, timeout=10)
 		response.raise_for_status()
 
 		soup = BeautifulSoup(response.text, 'html.parser')
